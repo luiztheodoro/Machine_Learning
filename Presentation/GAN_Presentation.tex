@@ -16,6 +16,8 @@
 
 \usepackage{amsmath, bm}
 \usepackage[ruled,vlined]{algorithm2e}
+\usepackage[utf8]{inputenc}
+
 
 \title{Generative Adversarial Networks}
 \subtitle{}
@@ -37,26 +39,39 @@
 \end{frame}
 
 \AtBeginSection{}
-\section[Introduction]{Introduction}
-\begin{frame}[fragile]{Introduction}
+\section[Introdução]{Introdução}
+\begin{frame}[fragile]{Introdução}
 
-	\textbf{Generative Adversarial Networks} were originally introduced
-	by \citet{goodfellow2014}.
+	\textbf{Generative Adversarial Networks}(GAN)
+	foram originalmente introduzidas por \citet{goodfellow2014}.
+	Essas redes são utilizadas com o objetivo de gerar
+	dados sintéticos realísticos a partir de dados reais.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=6cm]{images/gans-faces.png}
+        \caption{Faces geradas por GAN
+        \footnote{https://towardsdatascience.com/generating-modern-arts-using-generative-adversarial-network-gan-on-spell-39f67f83c7b4}.}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Introdução}
+
+	A geração de novas amostras sintéticas tem diferentes utilidades,
+	como aprendizado semi-supervisionado, geração de exemplos
+	adversariais, "style tranfer" entre imagens.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=6cm]{images/style-transfer.jpeg}
+        \caption{Style transfer utilizando CycleGan
+        \footnote{https://towardsdatascience.com/style-transfer-with-gans-on-hd-images-88e8efcf3716}.}
+    \end{figure}
+
 
 \end{frame}
 
-\begin{frame}[fragile]{Objective \& Motivation}
-
-  ABC methods are known as likelihood-free techniques, thus are
-  a useful approach in problems that the likelihood is intractable, e.g., likelihood not available in
-  closed form, or likelihood too expensive to calculate.
-  \begin{itemize}
-    \item Coalescent models in population genetics \citep{Tavare505};
-    \item Species dynamics \citep{Jabot2016};
-    \item Real-world model of HIV transmission \citep{McKinley2018}.
-  \end{itemize}
-
-\end{frame}
 
 \begin{frame}[fragile]{Objective \& Motivation}
 
