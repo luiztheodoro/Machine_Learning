@@ -1,12 +1,36 @@
-\frametitle{Model Choice}
+\frametitle{Formalização Teórica}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=11.2cm]{images/ModelChoice_MA1.png}
-        \caption{Barplots of evolution of Bayes factor approximations
-        in terms of visits to models MA(1) and MA(2) using
-        ABC using thresholds of 10, 1, 0.1 , 0.01 \% on autocovariance
-        distance. The true model is MA(1) and the true Bayes factor is 0.943.
-        }
-    \end{figure}
+  \footnotesize
+  \begin{algorithm}[H]
+  \SetAlgoLined
+  \For{número de iterações de treino}{
+  	\For{k passos}{
+  		Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
+  		da priori $p_z(\bm z)$;
+
+  		Amostre $m$ exemplos $\{\bm x^{(1)},...,\bm x^{(m)} \}$
+  		da fução dos dados $p_{data}(\bm x)$;
+
+  		Atualize o \textit{discriminator} utilizando
+  		\textit{stochastic gradient descent}:
+  		$$
+  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
+  		\left[
+  		log D(\bm x^{(i)}) + log(1-D(G(\bm z^{(i)})))
+  		\right]
+  		$$
+  	}
+
+	Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
+	da priori $p_z(\bm z)$;
+
+	Atualize o \textit{generator} utilizando
+	\textit{stochastic gradient descent}:
+  		$$
+  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
+  		log(1-D(G(\bm z^{(i)})))
+  		$$
+  }
+   \caption{GAN descrita em \citet{goodfellow2014}}
+  \end{algorithm}
 

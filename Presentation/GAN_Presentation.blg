@@ -3,19 +3,9 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: GAN_Presentation.aux
 The style file: apa.bst
 Database file #1: gan.bib
-Warning--I didn't find a database entry for "Rubin1984"
-Warning--I didn't find a database entry for "Tavare505"
-Warning--I didn't find a database entry for "Pritchard1999"
-Warning--I didn't find a database entry for "fearnhead2010constructing"
-Warning--I didn't find a database entry for "Marjoram2013"
-Warning--I didn't find a database entry for "Wilkinson2013"
-Warning--I didn't find a database entry for "Beaumont2018"
-Warning--I didn't find a database entry for "Beaumont2009"
-Warning--I didn't find a database entry for "Simola2019"
-Warning--I didn't find a database entry for "Beaumont2012"
 You've used 1 entry,
             1940 wiz_defined-function locations,
-            500 strings with 4298 characters,
+            481 strings with 4069 characters,
 and the built_in function-call counts, 856 in all, are:
 = -- 76
 > -- 60
@@ -54,4 +44,3 @@ warning$ -- 0
 while$ -- 6
 width$ -- 0
 write$ -- 16
-(There were 10 warnings)
