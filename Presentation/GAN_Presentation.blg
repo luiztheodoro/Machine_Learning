@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: GAN_Presentation.aux
+The style file: apa.bst
+Database file #1: gan.bib
+Warning--I didn't find a database entry for "Tavare505"
+Warning--I didn't find a database entry for "Jabot2016"
+Warning--I didn't find a database entry for "McKinley2018"
+Warning--I didn't find a database entry for "Rubin1984"
+Warning--I didn't find a database entry for "Pritchard1999"
+Warning--I didn't find a database entry for "fearnhead2010constructing"
+Warning--I didn't find a database entry for "Marjoram2013"
+Warning--I didn't find a database entry for "Wilkinson2013"
+Warning--I didn't find a database entry for "Beaumont2018"
+Warning--I didn't find a database entry for "Beaumont2009"
+Warning--I didn't find a database entry for "Simola2019"
+Warning--I didn't find a database entry for "Beaumont2012"
+You've used 1 entry,
+            1940 wiz_defined-function locations,
+            504 strings with 4340 characters,
+and the built_in function-call counts, 856 in all, are:
+= -- 76
+> -- 60
+< -- 1
++ -- 21
+- -- 21
+* -- 76
+:= -- 143
+add.period$ -- 4
+call.type$ -- 1
+change.case$ -- 13
+chr.to.int$ -- 1
+cite$ -- 1
+duplicate$ -- 29
+empty$ -- 49
+format.name$ -- 22
+if$ -- 174
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 1
+newline$ -- 8
+num.names$ -- 5
+pop$ -- 16
+preamble$ -- 1
+purify$ -- 13
+quote$ -- 0
+skip$ -- 25
+stack$ -- 0
+substring$ -- 52
+swap$ -- 13
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 6
+warning$ -- 0
+while$ -- 6
+width$ -- 0
+write$ -- 16
+(There were 12 warnings)
