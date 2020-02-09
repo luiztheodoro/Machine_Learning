@@ -1,36 +1,7 @@
-\frametitle{Formalização Teórica}
-
-  \footnotesize
-  \begin{algorithm}[H]
-  \SetAlgoLined
-  \For{número de iterações de treino}{
-  	\For{k passos}{
-  		Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
-  		da priori $p_z(\bm z)$;
-
-  		Amostre $m$ exemplos $\{\bm x^{(1)},...,\bm x^{(m)} \}$
-  		da fução dos dados $p_{data}(\bm x)$;
-
-  		Atualize o \textit{discriminator} utilizando
-  		\textit{stochastic gradient descent}:
-  		$$
-  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
-  		\left[
-  		log D(\bm x^{(i)}) + log(1-D(G(\bm z^{(i)})))
-  		\right]
-  		$$
-  	}
-
-	Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
-	da priori $p_z(\bm z)$;
-
-	Atualize o \textit{generator} utilizando
-	\textit{stochastic gradient descent}:
-  		$$
-  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
-  		log(1-D(G(\bm z^{(i)})))
-  		$$
-  }
-   \caption{GAN descrita em \citet{goodfellow2014}}
-  \end{algorithm}
-
+\frametitle{Resumo:}
+$$V(G,D) = \mathbb{E}_{x~p_{data}(x)}\left[\log{(D(x))}\right]+\mathbb{E}_{z~p_z(x)}\left[1-\log{(D(D(z)))}\right]$$
+  Gerador $G$, Discriminador $D$ \\
+  Encontro $G^*$, tal que \\
+  $$G^* = \arg{\min_G \max_D} V(G,D)$$\\
+  Dado $G, \max_{D}V(G,D)$
+  $$= -2\log{2} + 2JSD(P_{data}(x)||P_g(x))$$

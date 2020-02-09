@@ -77,8 +77,10 @@
 
 	A ideia geral por trás das GANs é utilizar duas redes neurais
 	competindo uma com a outra, sendo uma rede responsável por
-	gerar amostras parecidas com os dados reais, enquanto a outra
-	busca identificar quando o dado é real ou sintético.
+	gerar amostras parecidas com os dados reais (\textit{gerador})
+	, enquanto a outra
+	busca identificar quando o dado é real ou sintético
+	(\textit{descriminador}).
 
     \begin{figure}[H]
         \centering
@@ -86,10 +88,70 @@
         \caption{Desenho esquemático de uma GAN "convencional".}
     \end{figure}
 
-
 \end{frame}
 
 \AtBeginSection{}
+\section[Teoria]{Formalização Teórica}
+\begin{frame}[fragile]{Formalização Teórica}
+	Na formalização teórica da modelagem das 
+	redes adversariais, consideraremos que
+	o gerador e o descriminador são ambos \textit{multilayer perceptrons}.
+	Os dados reais ($\bm x$) possuem uma distrbuição
+	$p_{data}(\bm x)$, enquanto $p_g$ é a distribuição do gerador e
+	$p_z(\bm z)$ é a priori do ruído de entrada. A função
+	$G(\bm z, \theta_g)$ é a função diferenciável que transforma $\bm z$ no
+	dado sintético, onde $\theta_g$ são os parâmetros da rede.
+	A função $D(\bm x, \theta_d)$ retorna a probabilidade de $\bm x$ ter
+	sido amostrada de $p_{data}$ invés de $p_g$.
+	\begin{itemize}
+		\item $p_g$ - Distribuição dos dados sintéticos;
+		\item $p_z$ - Distribuição priori dos rúidos de entrada;
+		\item $p_{data}$ - Distribuição real dos dados;
+		\item $G(\bm z,\theta_g)$ - Função geradora;
+		\item $D(\bm x,\theta_d)$ - Função discriminadora.
+	\end{itemize}
+\end{frame}
+
+\section[Teoria]{Formalização Teórica}
+\begin{frame}[fragile]{Formalização Teórica}
+
+  \footnotesize
+  \begin{algorithm}[H]
+  \SetAlgoLined
+  \For{número de iterações de treino}{
+  	\For{k passos}{
+  		Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
+  		da priori $p_z(\bm z)$;
+
+  		Amostre $m$ exemplos $\{\bm x^{(1)},...,\bm x^{(m)} \}$
+  		da fução dos dados $p_{data}(\bm x)$;
+
+  		Atualize o \textit{discriminator} utilizando
+  		\textit{stochastic gradient descent}:
+  		$$
+  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
+  		\left[
+  		log D(\bm x^{(i)}) + log(1-D(G(\bm z^{(i)})))
+  		\right]
+  		$$
+  	}
+
+	Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
+	da priori $p_z(\bm z)$;
+
+	Atualize o \textit{generator} utilizando
+	\textit{stochastic gradient descent}:
+  		$$
+  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
+  		log(1-D(G(\bm z^{(i)})))
+  		$$
+  }
+   \caption{GAN descrita em \citet{goodfellow2014}}
+  \end{algorithm}
+
+\end{frame}
+
+
 \section [Teoria]{Entendendo a Função Objetivo}
 \begin{frame}[fragile]{Entendendo a Função Objetivo}
   $$V(D,G) = \mathbb{E}_{x~p_{data}(x)}\left[\log{(D(x))}\right]+\mathbb{E}_{z~p_z(x)}\left[1-\log{(D(D(z)))}\right] $$
@@ -161,45 +223,6 @@
   $$= -2\log{2} + 2JSD(P_{data}(x)||P_g(x))$$
 \end{frame}
 
-\AtBeginSection{}
-\section[Teoria]{Formalização Teórica}
-\begin{frame}[fragile]{Formalização Teórica}
-
-  \footnotesize
-  \begin{algorithm}[H]
-  \SetAlgoLined
-  \For{número de iterações de treino}{
-  	\For{k passos}{
-  		Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
-  		da priori $p_z(\bm z)$;
-
-  		Amostre $m$ exemplos $\{\bm x^{(1)},...,\bm x^{(m)} \}$
-  		da fução dos dados $p_{data}(\bm x)$;
-
-  		Atualize o \textit{discriminator} utilizando
-  		\textit{stochastic gradient descent}:
-  		$$
-  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
-  		\left[
-  		log D(\bm x^{(i)}) + log(1-D(G(\bm z^{(i)})))
-  		\right]
-  		$$
-  	}
-
-	Amostre $m$ valores $\{\bm z^{(1)},...,\bm z^{(m)} \}$
-	da priori $p_z(\bm z)$;
-
-	Atualize o \textit{generator} utilizando
-	\textit{stochastic gradient descent}:
-  		$$
-  		\nabla_{\theta_d}\frac{1}{m}\sum^{m}_{i=1}
-  		log(1-D(G(\bm z^{(i)})))
-  		$$
-  }
-   \caption{GAN descrita em \citet{goodfellow2014}}
-  \end{algorithm}
-
-\end{frame}
 
 \begin{frame}[allowframebreaks]{References}
 
