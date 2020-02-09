@@ -19,6 +19,7 @@
 \usepackage[utf8]{inputenc}
 
 
+
 \title{Generative Adversarial Networks}
 \subtitle{}
 % \date{\today}
@@ -88,6 +89,77 @@
 
 \end{frame}
 
+\AtBeginSection{}
+\section [Teoria]{Entendendo a Função Objetivo}
+\begin{frame}[fragile]{Entendendo a Função Objetivo}
+  $$V(D,G) = \mathbb{E}_{x~p_{data}(x)}\left[\log{(D(x))}\right]+\mathbb{E}_{z~p_z(x)}\left[1-\log{(D(D(z)))}\right] $$
+  \pause
+  $$= \int_x p_{data}(x)\log{(D(x))}dx + \int_z p_z(z)\log{(1-D(G(z)))}dz $$
+  \pause
+  $$x = G(z) \rightarrow z = G^{-1}(x) \rightarrow dz = (G^{-1}(x))dx $$
+  $$\rightarrow p_g(x) = p_z(G^{-1})(G^{-1})'(x)dx $$
+  \pause
+  $$= \int_x p_{data}(x)\log{(D(x))}dx + \int_x p_z(G^{-1}(x))\log{(1-D(x))}(G^{-1})'(x)dx $$
+  \pause
+  $$= \int_x p_{data}(x)\log{(D(x))}dx + \int_x p_g(x)\log{(1-D(x))}dx $$
+  \pause
+  $$= \int_x p_{data}(x)\log{(D(x))} + p_g(x)\log{(1-D(x))}dx $$
+\end{frame}
+
+\begin{frame}[fragile]{Entendendo a Função Objetivo}
+ $$\max_{D} V(D,G) = \max_{D}\int_x p_{data}(x)\log{(D(x))} + p_g(x)\log{(1-D(x))}dx $$
+ \pause
+ $$\frac{\partial}{\partial D(x)} \left(p_{data}(x)\log{(D(x))} + p_g(x)\log{(1-D(x))}\right) = 0 $$
+ \pause
+ $$\rightarrow \dfrac{p_{data}(x)}{D(x)} - \dfrac{p_g(x)}{1 - D(x)} = 0 $$
+ $$\rightarrow D(x) = \dfrac{p_{data}(x)}{p_{data}(x)+p_g(x)} $$
+\end{frame}
+
+\begin{frame}[fragile]{Entendendo a Função Objetivo}
+ Suponha que o discriminador $D^*_G(x)$ seja ótimo\\
+ Então o gerador ótimo produz $p_g(x) = p_{data}(x)$ \\
+ $$\rightarrow D^*_G(x) = \dfrac{p_{data}(x)}{p_{data}(x) + p_g(x)}$$
+\end{frame}
+
+\begin{frame}[fragile]{Entendendo a Função Objetivo}
+  $$C(G) = \max_{D}V(G,D)$$
+  \pause
+  $$= \max_{D} \int_{x}p_{data}(x)\log{D(x)} + p_{g}\log{1-D(x)}dx $$
+  \pause
+  $$= \int_{x}p_{data}(x)\log{\left(D_{G}^{*}(x)\right)} + p_{g}(x)\log{\left(1-D_{g}^{*}(x)\right)}dx $$
+  \pause
+  $$= \int_{x}p_{data}(x)\log{\left(\dfrac{p_{data}(x)}{p_{data}(x) + p_{g}(x)}\right)} + p_{g}(x)\log{\left(\dfrac{p_{data}(x)}{p_{data}(x) + p_{g}(x)}\right)}dx $$
+  \pause
+  $$= \int_{x}p_{data}(x)\log{\left(\dfrac{p_{data}(x)}{\dfrac{p_{data}(x) + p_{g}(x)}{2}}\right)} + p_{g}(x)\log{\left(\dfrac{p_{data}(x)}{\dfrac{p_{data}(x) + p_{g}(x)}{2}}\right)}dx	$$
+  \pause
+  $$= KL\left[p_{data}(x)||\dfrac{p_{data}(x)+p_g(x)}{2}\right] + KL\left[p_g(x)||\dfrac{p_{data}(x) + p_g(x)}{2}\right] - \log{4} $$
+\end{frame}
+
+\begin{frame}[fragile]{Entendendo a Função Objetivo}
+  $$C(G) = KL\left[p_{data}(x)||\frac{p_{data}(x)+p_g(x)}{2}\right] + KL\left[p_g(x)||\frac{p_{data}(x) + p_g(x)}{2}\right] - \log{4}$$
+  \pause
+  $$\min_G C(G) = 0+0-\log{4} = -\log{4} $$
+  $$KL\left[p_{data}(x)||\dfrac{p_{data}(x) + p_g(x)}{2}\right] = 0$$
+  \pause
+  quando, $p_{data}(x) = \dfrac{p_{data}(x)+p_g(x)}{2}$
+  \pause
+  $$\rightarrow p_{data}(x) = p_g(x)$$
+\end{frame}
+
+\begin{frame}[fragile]{KL (Kullback-Leibler) divergence}
+  Jensen-Shannon Divergency (symetric KL):
+  $$JSD(P||Q) = \frac{1}{2}D_{KL}(P||M) + \frac{1}{2}D_KL(Q||M),$$
+  $$M = \frac{1}{2}(P+Q)$$
+\end{frame}
+
+\begin{frame}[fragile]{Resumo:}
+  $$V(G,D) = \mathbb{E}_{x~p_{data}(x)}\left[\log{(D(x))}\right]+\mathbb{E}_{z~p_z(x)}\left[1-\log{(D(D(z)))}\right]$$
+  Gerador $G$, Discriminador $D$ \\
+  Encontro $G^*$, tal que \\
+  $$G^* = \arg{\min_G \max_D} V(G,D)$$\\
+  Dado $G, \max_{D}V(G,D)$
+  $$= -2\log{2} + 2JSD(P_{data}(x)||P_g(x))$$
+\end{frame}
 
 \AtBeginSection{}
 \section[Teoria]{Formalização Teórica}
