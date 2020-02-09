@@ -96,7 +96,7 @@
 	Na formalização teórica da modelagem das 
 	redes adversariais, consideraremos que
 	o gerador e o descriminador são ambos \textit{multilayer perceptrons}.
-	Os dados reais ($\bm x$) possuem uma distrbuição
+	Os dados reais possuem uma distrbuição
 	$p_{data}(\bm x)$, enquanto $p_g$ é a distribuição do gerador e
 	$p_z(\bm z)$ é a priori do ruído de entrada. A função
 	$G(\bm z, \theta_g)$ é a função diferenciável que transforma $\bm z$ no
@@ -112,7 +112,33 @@
 	\end{itemize}
 \end{frame}
 
-\section[Teoria]{Formalização Teórica}
+
+\begin{frame}[fragile]{Formalização Teórica}
+	
+	Nós treinamos $D$ buscando maximizar
+	a capacidade de discernir dados de $p_{data}$ de $p_g$. Ao
+	mesmo tempo que treinamos $G$ para minimizar $log(1-D(G(\bm z)))$.
+	O treino da rede se resume ao problema de otimização dado
+	pela seguinte função objetivo:
+	\small
+    $$
+    \min_{G} \max_D V(D,G) =
+    \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
+    \mathbb{E}_{z\sim p_z(\bm z)}\left[1-\log{(D(G(\bm z)))}\right]
+    $$
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{images/gan-algorithmscheme.png}
+        \caption{De (a) até (d), o desenho ilustra a evolução do
+        algoritmo ao ser treinado. A linha azul representa a
+        distrbuição do descriminador, a linha verde representa
+        a $p_g$, e os pontos pretos representam $p_{data}$
+        \footnote{Imagem de \citet{goodfellow2014}}.}
+    \end{figure}
+	 
+\end{frame}
+
 \begin{frame}[fragile]{Formalização Teórica}
 
   \footnotesize
@@ -151,10 +177,42 @@
 
 \end{frame}
 
+\begin{frame}[fragile]{Formalização Teórica}
+	
+	Vamos estabelecer alguns resultados teóricos do funcionamento
+	do algoritmo.
+
+	\small
+	\textbf{Proposição 1.} Para G fixo, o discriminador D ótimo é
+	$
+	D^*_G(\bm x) = \frac{p_{data}(\bm x)}
+	{p_{data}(\bm x) + p_g(\bm x)}
+	$.
+
+	\hfill
+	\break
+	\textbf{Teorema 1.} O mínimo global da função objetivo
+	é atingido se, e somente se, $p_g = p_{data}$.
+
+	\hfill
+	\break
+	\textbf{Proposição 2.} Se G e D tiverem capacidade suficiente,
+	e, em cada passo do Algortimo 1, o discriminador atingir o seu
+	ótimo dado G com $p_g$ sendo atualizado de acordo com
+    $$
+    \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
+    \mathbb{E}_{z\sim p_z(\bm z)}\left[1-\log{(D(G(\bm z)))}\right]
+    $$
+    então $p_g$ converge para $p_{data}$.
+
+\end{frame}
 
 \section [Teoria]{Entendendo a Função Objetivo}
 \begin{frame}[fragile]{Entendendo a Função Objetivo}
-  $$V(D,G) = \mathbb{E}_{x~p_{data}(x)}\left[\log{(D(x))}\right]+\mathbb{E}_{z~p_z(x)}\left[1-\log{(D(D(z)))}\right] $$
+  $$V(D,G)=
+    \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
+    \mathbb{E}_{z\sim p_z(\bm z)}\left[1-\log{(D(G(\bm z)))}\right]
+  $$
   \pause
   $$= \int_x p_{data}(x)\log{(D(x))}dx + \int_z p_z(z)\log{(1-D(G(z)))}dz $$
   \pause
