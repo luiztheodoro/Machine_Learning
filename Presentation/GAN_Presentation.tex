@@ -203,10 +203,10 @@
 	\break
 	\textbf{Proposição 2.} Se G e D tiverem capacidade suficiente,
 	e, em cada passo do Algortimo 1, o discriminador atingir o seu
-	ótimo dado G com $p_g$ sendo atualizado de acordo com
+	ótimo dado G com $p_g$ sendo atualizado para melhorar o critério
     $$
     \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
-    \mathbb{E}_{z\sim p_z(\bm z)}\left[1-\log{(D(G(\bm z)))}\right]
+    \mathbb{E}_{x\sim p_g(\bm x)}\left[1-\log{(D(\bm x))}\right]
     $$
     então $p_g$ converge para $p_{data}$.
 
@@ -221,7 +221,6 @@
 	$.
 
 	\textit{Demonstração:}
-
   $$V(D,G)=
     \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
     \mathbb{E}_{z\sim p_z(\bm z)}\left[1-\log{(D(G(\bm z)))}\right]
@@ -290,22 +289,23 @@
 	\impliedby )$ Seja $C(G) = \max_{D}V(G,D)$, assim
   $$C(G) = \int_{x}p_{data}(x)\log{\left(D_{G}^{*}(x)\right)}
   + p_{g}(x)\log{\left(1-D_{g}^{*}(x)\right)}dx $$
+  \pause
   $$
   = \int_{x}p_{data}(x)\log{\left(\dfrac{p_{data}(x)}{p_{data}(x)
   + p_{g}(x)}\right)} + p_{g}(x)\log{\left(\dfrac{p_{g}(x)}{p_{data}(x)
   + p_{g}(x)}\right)}dx $$
-
+  \pause
   $$= \int_{x}p_{data}(x)
   \log{\left(2^{-1}\cdot \dfrac{p_{data}(x)}{\dfrac{p_{data}(x)
   + p_{g}(x)}{2}}\right)} + p_{g}(x)
   \log{\left(2^{-1}\cdot \dfrac{p_{g}(x)}{\dfrac{p_{data}(x)
   + p_{g}(x)}{2}}\right)}dx	$$
-
+  \pause
   $$=
     \mathbb{E}_{x\sim p_{data}(\bm x)}\left[-\log (2)+
     \frac{p_{data}(x)}{p_{data}(x)+p_g(x)}\right]+
     \mathbb{E}_{x\sim p_g(\bm x)}\left[-\log(2)+
-    \frac{p_{data}(x)}{p_{data}(x)+p_g(x)}\right]
+    \frac{p_{g}(x)}{p_{data}(x)+p_g(x)}\right]
   $$
 
 \end{frame}
@@ -332,6 +332,62 @@
   dados}. \QEDB
 \end{frame}
 
+\begin{frame}[fragile]{Formalização Teórica}
+	
+	\small
+	\textbf{Proposição 2.} Se G e D tiverem capacidade suficiente,
+	e, em cada passo do Algortimo 1, o discriminador atingir o seu
+	ótimo dado G com $p_g$ sendo atualizado para melhorar o critério
+    $$
+    \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
+    \mathbb{E}_{x\sim p_g(\bm x)}\left[1-\log{(D(\bm x))}\right]
+    $$
+    então $p_g$ converge para $p_{data}$.
+
+	\textit{Demonstração:}
+
+	Considere $V(G,D) = U(p_g,D)$. Assim, para um $D$ fixo, $U$ é
+	função de $p_g$. Note que $U(p_g,D)$ é convexo, pois
+	$$ U(p_g,D) = 
+    \mathbb{E}_{x\sim p_{data}(x)}\left[\log{(D(x))}\right]+
+    \mathbb{E}_{x\sim p_g(x)}\left[1-\log{(D(x))}\right] \therefore
+	$$
+	\pause
+	$$U(\alpha p + (1-\alpha)q,D) = 
+	\int_x \alpha\cdot p(x)\log{(D(x))} + (1-\alpha)q(x)\log{(1-D(x))}dx
+	$$
+	$$
+	=
+    \alpha\mathbb{E}_{x\sim p(x)}\left[\log{(D(x))}\right]+
+    (1-\alpha)\mathbb{E}_{x\sim q(x)}\left[1-\log{(D(x))}\right]
+	$$
+	$$
+	= \alpha U(p,D) + (1-\alpha)U(q,D)
+	$$
+
+\end{frame}
+
+\begin{frame}[fragile]{Formalização Teórica}
+	
+	\small
+	\textbf{Proposição 2.} Se G e D tiverem capacidade suficiente,
+	e, em cada passo do Algortimo 1, o discriminador atingir o seu
+	ótimo dado G com $p_g$ sendo atualizado para melhorar o critério
+    $$
+    \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
+    \mathbb{E}_{x\sim p_g(\bm x)}\left[1-\log{(D(\bm x))}\right]
+    $$
+    então $p_g$ converge para $p_{data}$.
+
+	\textit{Demonstração:}
+
+	Como $U(p_g,D)$ é um função convexa, podemos utilizar um algoritmo
+	de descida de gradiente para atingir o seu mínimo no ponto
+	onde esse gradiente é igual a zero, e que como provado
+	no \textbf{Teorema 1}, é um mínimo global.
+
+
+\end{frame}
 
 
 \begin{frame}[allowframebreaks]{References}
