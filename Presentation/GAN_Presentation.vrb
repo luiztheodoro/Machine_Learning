@@ -1,7 +1,20 @@
-\frametitle{Resumo:}
-$$V(G,D) = \mathbb{E}_{x~p_{data}(x)}\left[\log{(D(x))}\right]+\mathbb{E}_{z~p_z(x)}\left[1-\log{(D(D(z)))}\right]$$
-  Gerador $G$, Discriminador $D$ \\
-  Encontro $G^*$, tal que \\
-  $$G^* = \arg{\min_G \max_D} V(G,D)$$\\
-  Dado $G, \max_{D}V(G,D)$
-  $$= -2\log{2} + 2JSD(P_{data}(x)||P_g(x))$$
+\frametitle{Formalização Teórica}
+
+\small
+	\textbf{Teorema 1.} O mínimo global da função objetivo
+	é atingido se, e somente se, $p_g = p_{data}$. Neste ponto,
+	o mínimo é $-log4$.
+
+	\textit{Demonstração:}
+  $$C(G) = KL\left[p_{data}(x)||\dfrac{p_{data}(x)+p_g(x)}{2}\right] + KL\left[p_g(x)||\dfrac{p_{data}(x) + p_g(x)}{2}\right] - \log{4} $$
+  $$= 2 \cdot JSD\left[ p_{data} \mid \mid p_g
+  \right] - \log 4$$
+
+  Onde $KL$ é a distância Kullback-Leibler e $JSD$ é a divergência
+  de Jensen-Shannon. Assim:
+  $$\min_G C(G) = \min_G \left( 2 \cdot JSD\left[ p_{data} \mid \mid p_g
+  \right] - \log 4 \right)$$
+  O mínimo da divergência $JSD$ é zero e só é atingido se, e somente se,
+  $p_g = p_{data}$\footnote{Estamos assumindo que o modelo
+  generativo é capaz de reproduzir perfeitamente a distribuição dos
+  dados}. \QEDB
