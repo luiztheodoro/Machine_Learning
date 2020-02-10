@@ -1,20 +1,3 @@
-\frametitle{Formalização Teórica}
-
-	\small
-	\textbf{Proposição 2.} Se G e D tiverem capacidade suficiente,
-	e, em cada passo do Algortimo 1, o discriminador atingir o seu
-	ótimo dado G com $p_g$ sendo atualizado para melhorar o critério
-    $$
-    \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
-    \mathbb{E}_{x\sim p_g(\bm x)}\left[1-\log{(D(\bm x))}\right]
-    $$
-    então $p_g$ converge para $p_{data}$.
-
-	\textit{Demonstração:}
-
-	Como $U(p_g,D)$ é um função convexa, podemos utilizar um algoritmo
-	de descida de gradiente para atingir o seu mínimo no ponto
-	onde esse gradiente é igual a zero, e que como provado
-	no \textbf{Teorema 1}, é um mínimo global.
+\frametitle{Implementações e Desafios}
 
 

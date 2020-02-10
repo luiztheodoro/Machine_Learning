@@ -221,6 +221,7 @@
 	$.
 
 	\textit{Demonstração:}
+	\hrule
   $$V(D,G)=
     \mathbb{E}_{x\sim p_{data}(\bm x)}\left[\log{(D(\bm x))}\right]+
     \mathbb{E}_{z\sim p_z(\bm z)}\left[1-\log{(D(G(\bm z)))}\right]
@@ -247,6 +248,7 @@
 	$.
 
 	\textit{Demonstração:}
+	\hrule
  $$\max_{D} V(D,G) = \max_{D}\int_x p_{data}(x)\log{(D(x))} + p_g(x)\log{(1-D(x))}dx $$
  \pause
  $$\frac{\partial}{\partial D(x)} \left(p_{data}(x)\log{(D(x))} + p_g(x)\log{(1-D(x))}\right) = 0 $$
@@ -263,6 +265,7 @@
 	o mínimo é $-log4$.
 
 	\textit{Demonstração:}
+	\hrule
 
 	$
 	\implies )$
@@ -284,6 +287,7 @@
 	o mínimo é $-log4$.
 
 	\textit{Demonstração:}
+	\hrule
 
 	$
 	\impliedby )$ Seja $C(G) = \max_{D}V(G,D)$, assim
@@ -318,6 +322,7 @@
 	o mínimo é $-log4$.
 
 	\textit{Demonstração:}
+	\hrule
   $$C(G) = KL\left[p_{data}(x)||\dfrac{p_{data}(x)+p_g(x)}{2}\right] + KL\left[p_g(x)||\dfrac{p_{data}(x) + p_g(x)}{2}\right] - \log{4} $$
   $$= 2 \cdot JSD\left[ p_{data} \mid \mid p_g
   \right] - \log 4$$
@@ -345,6 +350,7 @@
     então $p_g$ converge para $p_{data}$.
 
 	\textit{Demonstração:}
+	\hrule
 
 	Considere $V(G,D) = U(p_g,D)$. Assim, para um $D$ fixo, $U$ é
 	função de $p_g$. Note que $U(p_g,D)$ é convexo, pois
@@ -380,11 +386,25 @@
     então $p_g$ converge para $p_{data}$.
 
 	\textit{Demonstração:}
+	\hrule
 
 	Como $U(p_g,D)$ é um função convexa, podemos utilizar um algoritmo
 	de descida de gradiente para atingir o seu mínimo no ponto
 	onde esse gradiente é igual a zero, e que como provado
 	no \textbf{Teorema 1}, é um mínimo global.
+	\QEDB
+	\pause
+
+	\textcolor{red}{Na prática, a GAN otimiza os parâmetros
+	$\theta_g$ invés de $p_g$, então a prova não se aplica,
+	já que o \textit{mulilayer perceptron} aproxima um subconjunto
+	da família de $p_g$.}
+
+\end{frame}
+
+\AtBeginSection{}
+\section[Desafios]{Implementações e Desafios}
+\begin{frame}[fragile]{Implementações e Desafios}
 
 
 \end{frame}
