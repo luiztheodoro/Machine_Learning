@@ -1,3 +1,2 @@
 \beamer@sectionintoc {1}{Introdu\IeC {\c c}\IeC {\~a}o}{3}{0}{1}
 \beamer@sectionintoc {2}{Formaliza\IeC {\c c}\IeC {\~a}o Te\IeC {\'o}rica}{6}{0}{2}
-\beamer@sectionintoc {3}{Entendendo a Fun\IeC {\c c}\IeC {\~a}o Objetivo}{10}{0}{3}
