@@ -97,7 +97,7 @@
 \AtBeginSection{}
 \section[Teoria]{Formalização Teórica}
 \begin{frame}[fragile]{Formalização Teórica}
-	Na formalização teórica da modelagem das 
+	Na formalização teórica da modelagem das
 	redes adversariais, consideraremos que
 	o gerador e o descriminador são ambos \textit{multilayer perceptrons}.
 	Os dados reais possuem uma distrbuição
@@ -118,7 +118,7 @@
 
 
 \begin{frame}[fragile]{Formalização Teórica}
-	
+
 	Nós treinamos $D$ buscando maximizar
 	a capacidade de discernir dados de $p_{data}$ de $p_g$. Ao
 	mesmo tempo que treinamos $G$ para minimizar $log(1-D(G(\bm z)))$.
@@ -140,7 +140,7 @@
         a $p_g$, e os pontos pretos representam $p_{data}$
         \footnote{Imagem de \citet{goodfellow2014}}.}
     \end{figure}
-	 
+
 \end{frame}
 
 \begin{frame}[fragile]{Formalização Teórica}
@@ -182,7 +182,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Formalização Teórica}
-	
+
 	Vamos estabelecer alguns resultados teóricos do funcionamento
 	do algoritmo.
 
@@ -338,7 +338,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Formalização Teórica}
-	
+
 	\small
 	\textbf{Proposição 2.} Se G e D tiverem capacidade suficiente,
 	e, em cada passo do Algortimo 1, o discriminador atingir o seu
@@ -354,12 +354,12 @@
 
 	Considere $V(G,D) = U(p_g,D)$. Assim, para um $D$ fixo, $U$ é
 	função de $p_g$. Note que $U(p_g,D)$ é convexo, pois
-	$$ U(p_g,D) = 
+	$$ U(p_g,D) =
     \mathbb{E}_{x\sim p_{data}(x)}\left[\log{(D(x))}\right]+
     \mathbb{E}_{x\sim p_g(x)}\left[1-\log{(D(x))}\right] \therefore
 	$$
 	\pause
-	$$U(\alpha p + (1-\alpha)q,D) = 
+	$$U(\alpha p + (1-\alpha)q,D) =
 	\int_x \alpha\cdot p(x)\log{(D(x))} + (1-\alpha)q(x)\log{(1-D(x))}dx
 	$$
 	$$
@@ -374,7 +374,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Formalização Teórica}
-	
+
 	\small
 	\textbf{Proposição 2.} Se G e D tiverem capacidade suficiente,
 	e, em cada passo do Algortimo 1, o discriminador atingir o seu
@@ -409,6 +409,71 @@
 
 \end{frame}
 
+\AtBeginSection{}
+\section[Desafios]{Implementações e Desafios}
+\begin{frame}[fragile]{Desafios - Dissipação dos Gradientes}
+  \small
+  \textbf{Dissipação dos gradientes:}
+  Pesquisas indicam que se D for muito bom, então o treinamento de G pode falhar por dissipação dos gradientes. Ou seja, sob certas condições, foi provado que
+  $$\lim_{||D-D^*||\to0}\nabla_{\theta}\mathbb{E}_{z~p(z)}\left[\log{(1-D(G_{\theta}(z)))}=0\right]$$
+
+\end{frame}
+
+\begin{frame}[fragile]{Desafios - Dissipação dos Gradientes}
+  \small
+  \textbf{Solução:}\\
+  (i) Alterar a função objetivo do gerador para $C(G) = \max -\log(D^*(G(z)))$. Dessa, forma foi provado que
+  $$\mathbb{E}_{z~p(z)}\left[-\nabla_{\theta}\log{D^*(G_{\theta}(z))|_{\theta=\theta_{0}}} \right] = \nabla_{\theta}[KL(p_{g_{\theta}}||p_{data}) - 2JSD(p_{g_{\theta}}||p_{data})]|_{\theta = \theta_0} $$
+  Note que: \\
+  a. JSD's estão com sinais opostos. Significa que estão pressionando para que as distribuições sejam diferentes, o que parece ser uma falha na atualização.\\
+  b. $KL(p_{g_{\theta}}||p_{data})$ não é equivalente ao da máxima verossimilhança.\\
+  Isso explica porque os GANs (quando estabilizados) criam amostras de boa aparência e justifica porque os GANs sofrem com uma quantidade grande de "Mode Dropping".
+\end{frame}
+
+\begin{frame}[fragile]{Desafios - Dissipação dos Gradientes}
+  \small
+  \textbf{Solução:}\\
+  (ii) (WGAN) - Utilizar métrica Wasserstein, definida abaixo, como função objetivo.
+  $$W(p_{data},p_g) = \inf_{\gamma\in\Gamma(p_{data},p_g)}\mathbb{E}_{(x,y)~\gamma}[||x-y||] $$
+  \pause
+  Porém, implementar essa definição é impraticável. Em seu lugar, através da dualidade Kartrovich - Rubinstein, podemos aproximá-la por
+  $$W(p_{data},p_g) = \sup_{||f||_L\leq1} \frac{1}{K}\mathbb{E}_{x~p_{data}}[f(x)]- \mathbb{E}_{x~p_g}[f(x))]$$
+  \pause
+  Suponha que $f$ pertença à família de funções K-Lipschitz $\{f_w\}_{w \in W}$. Temos então
+  $$W(p_{data},p_g) = \max_{w \in W} \mathbb{E}_{x~p_{data}}[f_w(x)] - \mathbb{E}_{z~p_z}[f_w(G(z))] \text{, tal que } ||f_w||_L \leq K$$
+  \pause
+  O Discriminador é usado para aprender $w$ e encontrar $f_w$. A função $W$ então se torna.
+  $$W(p_{data},p_g) = \max_{w \in W} \mathbb{E}_{x~p_{data}}[D_w(x)] - \mathbb{E}_{z~p_z~}[D_w(G(z))] \text{, tal que } ||D_w||_L \leq K$$
+\end{frame}
+
+\begin{frame}[fragile]{Desafios - Dissipação dos Gradientes}
+  \small
+  Dessa forma, D deixa de ser um Discriminador (com saída [0,1]) que buscava descobrir quais amostras são falsas ou verdadeiras e se transforma em um Crítico (com saída $\geq0$), treinado para aprender funções contínuas K-Lipschitz que ajudarão a computar a métrica Wasserstein. \\
+  A função objetivo da nova GAN (WGAN) passa a ser então.
+  $$V(G,D) = \min_{\theta} \max_{w \in W} \mathbb{E}_{x~p_{data}}[D_w(x)] - \mathbb{E}_{z~p_z~}[D_w(G_{\theta}(z))] \text{, tal que } ||D_w||_L \leq K$$
+  Uma vez que a métrica Wasserstein tem um comportamento suave ela elimina o problema da dissipação do gradiente.
+\end{frame}
+
+\begin{frame}[fragile]{Desafios - "Mode Colapse"}
+  \small
+  \textbf{"Mode Colapse"}
+  Normalmente, você deseja que sua GAN produza uma ampla variedade de saídas. No entanto, se um gerador produz uma saída especialmente plausível, ele pode aprender a produzir apenas essa saída.
+
+  Neste caso, a melhor estratégia do discriminador é aprender a sempre rejeitar essa saída. Mas se a próxima geração de discriminador ficar presa no mínimo local e não encontrar a melhor estratégia, será muito fácil para a próxima iteração do gerador encontrar a saída mais plausível para o atual discriminador.
+
+  \textbf{Solução:}\\
+  (i) WGAN - Se o discriminador não ficar preso num mínimo local, então ele aprende a rejeitar as saídas estabilizadas do gerador.\\
+  (ii) Unrolled GAN - Unrolled GAN usa uma função objetivo para o gerador que incorpora não apenas as classificações atuais do discriminador, mas também os resultados de futuras versões do discriminador. Portanto, o gerador não consegue otimizar demais para um único discriminador.
+ \end{frame}
+
+\begin{frame}[fragile]{Desafios - Falha de Convergência}
+  \small
+  \textbf{"Falha de Convergência"}
+  GAN's frequentemente não convergem.\\
+  \textbf{Solução:}\\
+  (i) Adicionar ruído nas entradas do discriminador. Sabemos que o suporte de $p_{data}$ e $p_g$ são geralmente disjuntos. Para artificialmente espalhar a distribuição e aumentar a chance das duas distribuições se sobreporem, uma solução é adicionar ruído nas entradas do discriminador D.\\
+  (ii) Penalizar pesos do Discriminador.
+ \end{frame}
 
 \begin{frame}[allowframebreaks]{References}
 

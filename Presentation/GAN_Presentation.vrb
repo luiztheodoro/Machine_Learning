@@ -1,3 +1,7 @@
-\frametitle{Implementações e Desafios}
-
-
+\frametitle{Desafios - Falha de Convergência}
+\small
+  \textbf{"Falha de Convergência"}
+  GAN's frequentemente não convergem.\\
+  \textbf{Solução:}\\
+  (i) Adicionar ruído nas entradas do discriminador. Sabemos que o suporte de $p_{data}$ e $p_g$ são disjuntos num espaço de grande dimensão. Para artificialmente espalhar a distribuição e aumentar a chance das duas distribuições se sobreporem, uma solução é adicionar ruído nas entradas do discriminador D.\\
+  (ii) Penalizar pesos do discriminador.
